@@ -46,9 +46,9 @@ class SellerHome extends React.Component {
                        ( <div className="card-body">
                         <div className="accordion" id="accordionActiveOrders">
                         {
-                            this.state.activeOrders.map(order => {
+                            this.state.activeOrders.map((order,index) => {
                                 return(
-                                <div className="card">
+                                <div className="card" key={index}>
                                    <div className="card-header g-order-header" id={"active-order" + order.order_id} data-toggle="collapse" data-target={"#collapse"+ order.order_id} aria-expanded="true" aria-controls={"collapse"+ order.order_id }>
                                         <div> <span className="g-secondary-text">Order ID </span> <b>{order.order_id}</b> </div> 
                                         <div style={{flex: '2'}}> <span className="g-secondary-text">From </span> <b>{order.rest_name}</b> </div> 
@@ -80,7 +80,7 @@ class SellerHome extends React.Component {
                                                     </div>
                                                     <div className="g-menu-quantity">
                                                         Quantity<br/>
-                                                        <b>${item.qty}</b>
+                                                        <b>{item.qty}</b>
                                                     </div>
                                                     <div className="g-menu-price">
                                                         Price<br/>
@@ -95,7 +95,10 @@ class SellerHome extends React.Component {
                                                         Delivery address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
-                                                    <div className="g-menu-quantity"></div>
+                                                    <div className="g-menu-quantity">
+                                                        Contact <br/>
+                                                        <b>{order.phone}</b>
+                                                    </div>
                                                     <div className="g-menu-price">
                                                         Total<br/>
                                                         <b>${order.total}</b>
@@ -123,9 +126,9 @@ class SellerHome extends React.Component {
                        ( <div className="card-body">
                         <div className="accordion" id="accordionPastOrders">
                         {
-                            this.state.pastOrders.map(order => {
+                            this.state.pastOrders.map((order, index) => {
                                 return(
-                                <div className="card">
+                                <div className="card" key={index}>
                                     <div className="card-header g-order-header" id={"active-order" + order.order_id} data-toggle="collapse" data-target={"#collapse"+ order.order_id} aria-expanded="true" aria-controls={"collapse"+ order.order_id }>
                                         <div> <span className="g-secondary-text">Order ID </span> <b>{order.order_id}</b> </div> 
                                         <div style={{flex: '2'}}> <span className="g-secondary-text">From </span> <b>{order.rest_name}</b> </div> 
@@ -135,9 +138,9 @@ class SellerHome extends React.Component {
                                     </div>
                                     <div id={"collapse"+ order.order_id } className="collapse" aria-labelledby={"active-order" + order.order_id} data-parent="#accordionPastOrders">
                                         <div className="card-body">
-                                            {order.itemList.map( item => {
+                                            {order.itemList.map((item,index) => {
                                                 return(
-                                                <div className="g-menu-row">
+                                                <div className="g-menu-row" key={index}>
                                                     <div className="g-menu-image">
                                                         <img className="g-image" src={config.base + item.img} alt="NO PHOTO"/>
                                                     </div>
@@ -147,7 +150,7 @@ class SellerHome extends React.Component {
                                                     </div>
                                                     <div className="g-menu-quantity">
                                                         Quantity<br/>
-                                                        <b>${item.qty}</b>
+                                                        <b>{item.qty}</b>
                                                     </div>
                                                     <div className="g-menu-price">
                                                         Price<br/>
@@ -162,7 +165,10 @@ class SellerHome extends React.Component {
                                                         Delivery address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
-                                                    <div className="g-menu-quantity"></div>
+                                                    <div className="g-menu-quantity">
+                                                        Contact <br/>
+                                                        <b>{order.phone}</b>
+                                                    </div>
                                                     <div className="g-menu-price">
                                                         Total<br/>
                                                         <b>${order.total}</b>

@@ -48,12 +48,13 @@ router.post('/', (req, res) => {
 
 router.get('/customer', (req, res, next) => {
     connection.query(
-        `select O.order_id, O.status, S.rest_name, S.image as rest_img, S.address, S.zipcode, OI.quantity, I.name as item_name, I.image as item_img, OI.price, I.description, O.order_ts 
+        `select O.order_id, O.status, S.rest_name, S.image as rest_img, S.address, S.zipcode,S.phone, OI.quantity, I.name as item_name, I.image as item_img, OI.price, I.description, O.order_ts 
         from orders O 
         inner join sellers S on O.rest_id = S.id 
         inner join order_items OI on O.order_id = OI.order_id 
         inner join item_info I on OI.item_id = I.item_id
-        where O.cust_id = ?`, [req.query.cust_id],
+        where O.cust_id = ?
+        order by O.order_ts desc`, [req.query.cust_id],
        (err, results, fields) => {
         if(err) {
           res.send({
@@ -74,6 +75,7 @@ router.get('/customer', (req, res, next) => {
                         obj[row.order_id]['rest_name'] = row.rest_name;
                         obj[row.order_id]['status'] = row.status;
                         obj[row.order_id]['zipcode'] = row.zipcode;
+                        obj[row.order_id]['phone'] = row.phone;
                         obj[row.order_id]['address'] = row.address;
                         obj[row.order_id]['date'] = row.order_ts.split(' ')[0].split('-').reverse().join('-');
                         let time = row.order_ts.split(' ')[1].split(':');
@@ -93,6 +95,12 @@ router.get('/customer', (req, res, next) => {
                     obj[row.order_id]['total'] += row.price;
                 })
                Object.keys(obj).forEach(key => arr.push(obj[key]));
+               arr.sort((a,b) => {
+                let A = parseInt(a.order_id);
+                let B = parseInt(b.order_id);
+                if(A > B) return -1 
+                else return 1
+              })
                res.send({
                 success: true,
                 msg: "Successfully fetched the buyer profile" ,
@@ -105,12 +113,13 @@ router.get('/customer', (req, res, next) => {
   
 router.get('/restaurant', (req, res, next) => {
     connection.query(
-      `select O.order_id, O.status, B.name as rest_name, B.image as rest_img, B.address, B.zipcode, OI.quantity, I.name as item_name, I.image as item_img, OI.price, I.description , O.order_ts
+      `select O.order_id, O.status, B.name as rest_name, B.image as rest_img, B.address, B.zipcode, B.phone, OI.quantity, I.name as item_name, I.image as item_img, OI.price, I.description , O.order_ts
       from orders O 
       inner join buyers B on O.cust_id = B.id 
       inner join order_items OI on O.order_id = OI.order_id 
       inner join item_info I on OI.item_id = I.item_id
-      where O.rest_id = ?`, [req.query.rest_id],
+      where O.rest_id = ?
+      order by O.order_ts desc`, [req.query.rest_id],
        (err, results, fields) => {
         if(err) {
           res.send({
@@ -122,7 +131,6 @@ router.get('/restaurant', (req, res, next) => {
                 let obj = {};
                 let arr = [];
                 let total = 0;
-                console.log(results);
                 results.forEach(row => {
                     if(!obj.hasOwnProperty(row.order_id)) {
                         obj[row.order_id] = {};
@@ -131,6 +139,7 @@ router.get('/restaurant', (req, res, next) => {
                         obj[row.order_id]['rest_name'] = row.rest_name;
                         obj[row.order_id]['status'] = row.status;
                         obj[row.order_id]['zipcode'] = row.zipcode;
+                        obj[row.order_id]['phone'] = row.phone;
                         obj[row.order_id]['address'] = row.address;
                         obj[row.order_id]['date'] = row.order_ts.split(' ')[0].split('-').reverse().join('-');
                         let time = row.order_ts.split(' ')[1].split(':');
@@ -150,6 +159,12 @@ router.get('/restaurant', (req, res, next) => {
                     obj[row.order_id]['total'] += row.price;
                 })
                Object.keys(obj).forEach(key => arr.push(obj[key]));
+               arr.sort((a,b) => {
+                  let A = parseInt(a.order_id);
+                  let B = parseInt(b.order_id);
+                  if(A > B) return -1 
+                  else return 1
+               })
                res.send({
                 success: true,
                 msg: "Successfully fetched the buyer profile" ,

@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from './../redux/actions/login-action';
+import logo from '../../assets/images/logo.png';
 
 class Login extends React.Component { 
     constructor(props) {
@@ -16,14 +17,22 @@ class Login extends React.Component {
         }
     }
     componentDidMount() {
-        let lsUser = localStorage.getItem('latestUser');
-        if(lsUser) {
-            lsUser = JSON.parse(lsUser);
-            this.setState({
-                email: lsUser.email,
-                password: lsUser.password,
-                option: lsUser.option
-            })
+        if(localStorage.getItem('user1')) {
+           let user = JSON.parse(localStorage.getItem('user1'));
+           this.props.login({ email: user.email, password: user.password, option: '1'  });
+        } else if(localStorage.getItem('user2')) {
+            let user = JSON.parse(localStorage.getItem('user2'));
+            this.props.login({ email: user.email, password: user.password, option: '2'  });
+        } else {
+            let lsUser = localStorage.getItem('latestUser');
+            if(lsUser) {
+                lsUser = JSON.parse(lsUser);
+                this.setState({
+                    email: lsUser.email,
+                    password: lsUser.password,
+                    option: lsUser.option
+                })
+            }
         }
     }
     render() {
@@ -40,8 +49,9 @@ class Login extends React.Component {
             return <Redirect to='/signup-seller' />
         }
         return(
-        <div>
-        <form onSubmit={(e) => this.submitLogin(e)}>
+        <div style={{display: "flex"}}>
+        <img src={logo} alt="logo" style={{width: "400px", height: "272px"}}/>
+        <form onSubmit={(e) => this.submitLogin(e)} style={{ paddingLeft: "100px"}}>
             <div className='g-input-field'>
                 <div className='g-input-label'>I am a </div> 
                 <div className='g-input-control'>

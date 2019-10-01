@@ -2,6 +2,7 @@ import React from 'react';
 import { getSeller, updateSeller, updateSellerImage } from './../../redux/actions/profile-action';
 import { connect } from 'react-redux';
 import config from './../../../app-config';
+import { setMessage } from './../../redux/actions/util-action';
 
 class SellerProfile extends React.Component { 
     constructor(props) {
@@ -40,8 +41,8 @@ class SellerProfile extends React.Component {
                         <span className='g-primary-text'>{this.props.user.email}</span>
                     </div>
                     <div className="g-profile-details"> 
-                        <span className='g-secondary-text'>Password</span>
-                        <span className='g-primary-text'>{this.maskPass(this.props.user.password)}</span>
+                        <span className='g-secondary-text'>Phone number</span>
+                        <span className='g-primary-text'>{this.props.user.phone}</span>
                     </div>
                 </div>
                 <div className="g-profile-details-section">
@@ -87,9 +88,21 @@ class SellerProfile extends React.Component {
                                 </div>
                             </div>
                             <div className='g-input-field'>
+                                <div className='g-input-label'>Phone number:</div>
+                                <div className='g-input-control'>
+                                    <input type="tel" className="form-control" id="phone" placeholder="Enter phone number" required pattern="^\d{10}$"/>
+                                </div>
+                            </div>
+                            <div className='g-input-field'>
                                 <div className='g-input-label'>Password:</div>
                                 <div className='g-input-control'>
-                                    <input type="password" className="form-control" id="password" placeholder="Enter password" required/>
+                                    <input type="password" className="form-control" id="newpassword" placeholder="Enter new password"/>
+                                </div>
+                            </div>
+                            <div className='g-input-field'>
+                                <div className='g-input-label'>Confirm Password:</div>
+                                <div className='g-input-control'>
+                                    <input type="password" className="form-control" id="confirmpassword" placeholder="Enter new password"/>
                                 </div>
                             </div>
                             <div className='g-input-field'>
@@ -137,17 +150,33 @@ class SellerProfile extends React.Component {
     }
     updateProfile(e) {
         e.preventDefault();
-        let user = {
-        };
-        Object.keys(this.props.user).forEach(key => {
-            let element = document.getElementById(key);
-            if(element) {
-                user[key] = element.value;
-            } else {
-                user[key] = this.props.user[key]
-            }
-        })
-        this.props.updateSeller(user);
+        if(document.getElementById('newpassword').value !== document.getElementById('confirmpassword').value) {
+            this.props.setMessage({
+                msg: 'Passwords do not match',
+                name: 'danger'
+            })
+        } else {
+            let user = {
+            };
+            Object.keys(this.props.user).forEach(key => {
+                let element = document.getElementById(key);
+                if(key === 'password') {
+                    element = document.getElementById('newpassword');
+                    if(element.value !== '') {
+                        user.password = element.value;
+                    } else {
+                        user.password = JSON.parse(localStorage.getItem('user2')).password
+                    }
+                } else {
+                    if(element) {
+                        user[key] = element.value;
+                    } else {
+                        user[key] = this.props.user[key]
+                    }
+                }
+            })
+            this.props.updateSeller(user); 
+        }
     }
     uploadImage() {
         const data = new FormData();
@@ -164,7 +193,8 @@ const mapDispatchToProps = dispatch => {
     return {
       getSeller: payload => dispatch(getSeller(payload)),
       updateSeller: payload => dispatch(updateSeller(payload)),
-      uploadPicture: payload => dispatch(updateSellerImage(payload))
+      uploadPicture: payload => dispatch(updateSellerImage(payload)),
+      setMessage: payload => dispatch(setMessage(payload))
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SellerProfile);

@@ -42,7 +42,10 @@ class BuyerOrder extends React.Component {
                    <img src={config.base  + this.props.selectedOrderRest.image}/>
                    <div>
                        <span style={{fontSize: '38px'}}> {this.props.selectedOrderRest.rest_name} </span>  
+                       <span className='g-secondary-text'> Address </span>
                        <span style={{fontSize: '17px'}}> {this.props.selectedOrderRest.address}, <br/> {this.props.selectedOrderRest.zipcode} </span>
+                       <span className='g-secondary-text'> Contact </span>
+                       <span style={{fontSize: '17px'}}> {this.props.selectedOrderRest.phone} </span>
                    </div>
                 </div>
             )

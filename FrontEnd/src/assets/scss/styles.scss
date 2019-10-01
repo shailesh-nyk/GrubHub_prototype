@@ -20,7 +20,12 @@
        max-width: 400px;
    }
 }
-
+.g-nav-logo {
+   img {
+      height: 50px;
+   }
+   cursor: pointer;
+}
 .g-action-panel {
    margin: 48px 24px;
    box-sizing: border-box;
@@ -114,8 +119,23 @@
    font-size: 21px;
    font-weight: 600;
    color: $app-brown;
+   display: flex;
+   justify-content: center;
+   .g-menu-action {
+      display: none;
+      color: black;
+      .fa {
+         cursor: pointer;
+         margin-left: 24px;
+      }
+   }
    button {
       margin-left: 80px;
+   }
+   &:hover {
+      .g-menu-action {
+         display: block;
+      }
    }
 }
 .g-menu-row {
@@ -159,6 +179,16 @@
       justify-content: center;
       align-items: center;
       flex: 3;
+   }
+   .g-menu-action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 3;
+      .fa {
+         margin-right: 32px;
+         cursor: pointer;
+      }
    }
 }
 .g-empty-alert-text {
@@ -274,7 +304,7 @@
    margin-bottom: 24px;
    img {
       width: 300px;
-      height: 144px;
+      height: 175px;
    }
    div {
       display: flex;

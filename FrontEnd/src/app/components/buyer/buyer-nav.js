@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import logo from '../../../assets/images/logo.png';
+import logo2 from '../../../assets/images/logo2.png';
+import logo3 from '../../../assets/images/logo3.png';
 import { connect } from 'react-redux';
 import { placeOrder } from '../../redux/actions/order-actions';
+import { logOutBuyer } from './../../redux/actions/login-action';
 
 class BuyerNav extends React.Component { 
     constructor(props) {
@@ -30,6 +32,9 @@ class BuyerNav extends React.Component {
         }
     }
     render() {
+        if(!this.props.isAuthenticatedBuyer) {
+            return <Redirect to='/'/>
+        }
         if(this.state.order_successful) {
             return <Redirect to='/buyer/orderhistory'/>
         }
@@ -68,7 +73,10 @@ class BuyerNav extends React.Component {
         }
         return ( 
             <div className='g-seller-navbar'>
-                <img src={logo} alt="logo" style={{height : '80%'}}/>
+                <Link to="/buyer/home" className='g-nav-logo'>
+                    <img src={logo3} alt="logo"/>
+                    <img src={logo2} alt="logo"/>
+                </Link>
                 <span style={{flex : '1'}}></span>
                 <div className="dropdown" style={{marginRight: '32px'}}>
                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdownMenu" aria-haspopup="true" aria-expanded="true"
@@ -79,7 +87,7 @@ class BuyerNav extends React.Component {
                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" id='dropdownMenu1'>
                          <Link to="/buyer/profile" className="dropdown-item">My Profile</Link>
                          <Link to="/buyer/orderhistory" className="dropdown-item">My Orders</Link>
-                         <button className="dropdown-item">Logout</button>
+                         <button className="dropdown-item" onClick={() => this.logOut()}>Logout</button>
                      </div>
                  </div>
                  <div className="fa fa-shopping-cart g-cart-nav" data-toggle="modal" data-target="#cartModal" onClick={() => this.setCart()}>
@@ -108,7 +116,7 @@ class BuyerNav extends React.Component {
     }
     setCart() {
         let cart = JSON.parse(localStorage.getItem('cart'));
-        if(cart) {
+        if(cart && this.state.user.id === cart.cust_id) {
             this.setState({
                 cart: cart.items,
                 cart_total: cart.total
@@ -124,7 +132,7 @@ class BuyerNav extends React.Component {
         this.setCart();
     }
     logOut() {
-        localStorage.removeItem('user1');
+        this.props.logOutBuyer();
     }
     placeOrder() {
         this.props.placeOrder({
@@ -137,12 +145,14 @@ class BuyerNav extends React.Component {
 const mapStateToProps = state => {
     return {
         cart_change_trigger: state.orderReducer.cart_change,
-        order_successful: state.orderReducer.order_successful
+        order_successful: state.orderReducer.order_successful,
+        isAuthenticatedBuyer: state.loginReducer.isAuthenticatedBuyer
     }   
 }
 const mapDispatchToProps = dispatch => {
     return {
       placeOrder: payload => dispatch(placeOrder(payload)),
+      logOutBuyer: () => dispatch(logOutBuyer())
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BuyerNav);

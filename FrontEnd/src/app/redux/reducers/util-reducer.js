@@ -37,7 +37,7 @@ const utilReducer = (state = initialState, action) => {
           }
         }
     }
-      default:
+    default:
         return state;
     }
   }

@@ -2,6 +2,7 @@ import { LOGINBUYER , LOGINSELLER } from "../actions/action-types";
 import config from './../../../app-config';
 import axios from 'axios';
 import {startLoader, stopLoader, setMessage } from './util-action';
+import { LOGOUTSELLER , LOGOUTBUYER} from './action-types';
 
 const loginBuyerDispatcher = (payload) => {
   return { 
@@ -49,3 +50,13 @@ export const login = (payload) => {
             });
     };
 };
+export const logOutSeller = () => {
+    return { 
+        type: LOGOUTSELLER
+    };
+}
+export const logOutBuyer = () => {
+    return { 
+        type: LOGOUTBUYER
+    };
+}

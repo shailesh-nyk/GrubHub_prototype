@@ -148,6 +148,152 @@ export const addItem = (payload) => {
     };
 }
 
+export const editSection = (payload) => {
+    return dispatch => {
+        dispatch(startLoader());
+        axios.put(config.api_host + '/seller/sections', payload)
+        .then(resp => {
+            dispatch(stopLoader())
+            if(resp.data.success){
+                dispatch(reloadMenu());
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                }))
+            } else {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'danger'
+                })) 
+             } 
+        }) 
+        .catch(err => {
+            dispatch(stopLoader())
+            dispatch(setMessage({
+                msg: "Something went wrong",
+                name: 'danger'
+            })) 
+        })
+    }; 
+}
+
+export const deleteSection = (payload) => {
+    return dispatch => {
+        dispatch(startLoader());
+        axios.delete(config.api_host + '/seller/sections', { data: payload })
+        .then(resp => {
+            dispatch(stopLoader())
+            if(resp.data.success){
+                dispatch(reloadMenu());
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                }))
+            } else {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'danger'
+                })) 
+             } 
+        }) 
+        .catch(err => {
+            dispatch(stopLoader())
+            dispatch(setMessage({
+                msg: "Something went wrong",
+                name: 'danger'
+            })) 
+        })
+    }; 
+}
+
+export const editItem = (payload) => {
+    return dispatch => {
+            dispatch(startLoader());
+            if(payload.image) {
+                const data = new FormData();
+                data.append('file', payload.image, payload.item_id.toString());
+                axios.post(config.api_host + '/uploads/item', data)
+                .then(resp => {
+                    dispatch(stopLoader())
+                    if(resp.data.success){
+                        dispatch(updateItem(payload));
+                    } else {
+                        dispatch(setMessage({
+                            msg: "We couldn't update your item. Please try again",
+                            name: 'danger'
+                        })) 
+                    } 
+                }) 
+                .catch(err => {
+                    dispatch(stopLoader())
+                    dispatch(setMessage({
+                        msg: "Something went wrong",
+                        name: 'danger'
+                    })) 
+                })
+            } else {
+                dispatch(updateItem(payload));
+            }
+    };
+}
+export const updateItem = (payload) => {
+    return dispatch => {
+        dispatch(startLoader());
+        axios.put(config.api_host + '/seller/menu', payload)
+        .then(resp => {
+            dispatch(stopLoader())
+            if(resp.data.success){
+                dispatch(reloadMenu());
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                }))
+            } else {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'danger'
+                })) 
+             } 
+        }) 
+        .catch(err => {
+            dispatch(stopLoader())
+            dispatch(setMessage({
+                msg: "Something went wrong",
+                name: 'danger'
+            })) 
+        })
+    }; 
+}
+
+export const deleteItem = (payload) => {
+    return dispatch => {
+        dispatch(startLoader());
+        axios.delete(config.api_host + '/seller/menu', { data: payload })
+        .then(resp => {
+            dispatch(stopLoader())
+            if(resp.data.success){
+                dispatch(reloadMenu());
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'success'
+                }))
+            } else {
+                dispatch(setMessage({
+                    msg: resp.data.msg,
+                    name: 'danger'
+                })) 
+             } 
+        }) 
+        .catch(err => {
+            dispatch(stopLoader())
+            dispatch(setMessage({
+                msg: "Something went wrong",
+                name: 'danger'
+            })) 
+        })
+    }; 
+}
+
 export const selectRestaurant = (payload) => {
     return { 
         type: SELECTRESTAURANT , payload

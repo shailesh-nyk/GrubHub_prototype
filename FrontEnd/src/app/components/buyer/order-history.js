@@ -68,7 +68,7 @@ class BuyerOrderHistory extends React.Component {
                                                     </div>
                                                     <div className="g-menu-quantity">
                                                         Quantity<br/>
-                                                        <b>${item.qty}</b>
+                                                        <b>{item.qty}</b>
                                                     </div>
                                                     <div className="g-menu-price">
                                                         Price<br/>
@@ -77,13 +77,16 @@ class BuyerOrderHistory extends React.Component {
                                                 </div>
                                                 )
                                             })}
-                                            <div className="g-menu-row">
+                                            <div className="g-menu-row" style={{borderTop: "1px solid"}}>
                                                     <div className="g-menu-image"></div>
                                                     <div className="g-menu-desc">
                                                         Restaurant address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
-                                                    <div className="g-menu-quantity"></div>
+                                                    <div className="g-menu-quantity">
+                                                        Contact <br/>
+                                                        <b>{order.phone}</b>
+                                                    </div>
                                                     <div className="g-menu-price">
                                                         Total<br/>
                                                         <b>${order.total}</b>
@@ -135,7 +138,7 @@ class BuyerOrderHistory extends React.Component {
                                                     </div>
                                                     <div className="g-menu-quantity">
                                                         Quantity<br/>
-                                                        <b>${item.qty}</b>
+                                                        <b>{item.qty}</b>
                                                     </div>
                                                     <div className="g-menu-price">
                                                         Price<br/>
@@ -144,13 +147,16 @@ class BuyerOrderHistory extends React.Component {
                                                 </div>
                                                 )
                                             })}
-                                            <div className="g-menu-row">
+                                            <div className="g-menu-row" style={{borderTop: "1px solid"}}>
                                                     <div className="g-menu-image"></div>
                                                     <div className="g-menu-desc">
                                                         Restaurant address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
-                                                    <div className="g-menu-quantity"></div>
+                                                    <div className="g-menu-quantity">
+                                                        Contact <br/>
+                                                        <b>{order.phone}</b>
+                                                    </div>
                                                     <div className="g-menu-price">
                                                         Total<br/>
                                                         <b>${order.total}</b>

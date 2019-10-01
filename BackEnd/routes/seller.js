@@ -1,18 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../db_connection');
-
-//TO INSERT NEW SELLER/RESTAURANT
-router.post('/', (req, res) => {
-  console.log(req);
-    connection.query(
-      `INSERT INTO sellers (name, email, password, rest_name, zipcode) VALUES (${req.body.name}, ${req.body.email.toString()}, ${req.body.password}, ${req.body.rest_name}, ${req.body.zipcode})`,
-      (err, results, fields) => {
-        if(err) res.send(err);
-        else res.send(results);
-      }
-    );
-});
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 //TO ADD NEW SECTION
 router.post('/sections', (req, res) => {
@@ -149,9 +139,55 @@ router.get('/', (req, res, next) => {
 
 //UPDATE SELLER PROFILE
 router.put('/', (req, res, next) => {
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    connection.query(
+      `UPDATE sellers SET name=? , address=? , email=? , phone=? , password=?, zipcode=?,image=?, rest_name=? , cuisine=? WHERE id=?`,
+      [req.body.name, req.body.address, req.body.email, req.body.phone, hash, req.body.zipcode, req.body.image, req.body.rest_name, req.body.cuisine, req.body.id],
+       (err, results, fields) => {
+        if(err) {
+          res.send({
+              success: false,
+              msg: "Something went wrong",
+              msgDesc: err
+          })
+        } else {
+              res.send({
+                success: true,
+                msg: "Successfully updated the restaurant seller profile" ,
+                msgDesc: results
+            }) 
+        } 
+      }
+    );
+  });
+});
+
+//UPDATE MENU SECTION
+router.put('/sections', (req, res, next) => {
+    connection.query(
+      `UPDATE menu_sections SET section_name = ? WHERE section_id= ?`, [req.body.section_name, req.body.section_id],
+       (err, results, fields) => {
+        if(err) {
+          res.send({
+              success: false,
+              msg: "Something went wrong",
+              msgDesc: err
+          })
+        } else {
+              res.send({
+                success: true,
+                msg: "Successfully updated the section" ,
+                msgDesc: results
+            }) 
+        } 
+      }
+    );
+});
+
+//DELETE MENU SECTION
+router.delete('/sections', (req, res, next) => {
   connection.query(
-    `UPDATE sellers SET name=? , address=? , email=? , password=?, zipcode=?,image=?, rest_name=? , cuisine=? WHERE id=?`,
-    [req.body.name, req.body.address, req.body.email, req.body.password, req.body.zipcode, req.body.image, req.body.rest_name, req.body.cuisine, req.body.id],
+     `DELETE FROM menu_sections WHERE section_id=?`, [req.body.section_id],
      (err, results, fields) => {
       if(err) {
         res.send({
@@ -162,7 +198,51 @@ router.put('/', (req, res, next) => {
       } else {
             res.send({
               success: true,
-              msg: "Successfully updated the restaurant seller profile" ,
+              msg: "Successfully deleted the section" ,
+              msgDesc: results
+          }) 
+      } 
+    }
+  );
+});
+
+//UPDATE ITEM DETAILS
+router.put('/menu', (req, res, next) => {
+  connection.query(
+    `UPDATE item_info SET name=?, description=?,price=?,section=? WHERE item_id= ?`, [req.body.name, req.body.desc, req.body.price, req.body.section, req.body.item_id],
+     (err, results, fields) => {
+      if(err) {
+        res.send({
+            success: false,
+            msg: "Something went wrong",
+            msgDesc: err
+        })
+      } else {
+            res.send({
+              success: true,
+              msg: "Successfully updated the item details" ,
+              msgDesc: results
+          }) 
+      } 
+    }
+  );
+});
+
+//DELETE ITEM
+router.delete('/menu', (req, res, next) => {
+  connection.query(
+    `DELETE FROM restaurant_items WHERE item_id=?`, [req.body.item_id],
+     (err, results, fields) => {
+      if(err) {
+        res.send({
+            success: false,
+            msg: "Something went wrong",
+            msgDesc: err
+        })
+      } else {
+            res.send({
+              success: true,
+              msg: "Successfully deleted the item" ,
               msgDesc: results
           }) 
       } 

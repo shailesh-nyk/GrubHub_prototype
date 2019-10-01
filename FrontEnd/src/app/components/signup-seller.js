@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { signupSeller } from './../redux/actions/signup-action';
 import { Redirect } from 'react-router-dom';
+import { setMessage } from './../redux/actions/util-action';
 
 class SignUpSeller extends React.Component { 
     constructor(props) {
@@ -9,7 +10,9 @@ class SignUpSeller extends React.Component {
         this.state = {
             name: '',
             email: '',
+            phone: '',
             password: '',
+            confirmpassword: '',
             rest_name: '',
             rest_address: '',
             rest_zipcode: '',
@@ -39,10 +42,24 @@ class SignUpSeller extends React.Component {
                 </div>
             </div>
             <div className='g-input-field'>
+                <div className='g-input-label'>Phone Number:</div> 
+                <div className='g-input-control'>
+                    <input onChange = {(e) => this.setState({phone : e.target.value})} type="tel" className="form-control"  
+                     name="phone" placeholder="Enter phone number" required pattern="^\d{10}$"/>
+                </div>
+            </div>
+            <div className='g-input-field'>
                 <div className='g-input-label'>Password:</div> 
                 <div className='g-input-control'>
                     <input onChange = {(e) => this.setState({password : e.target.value})} type="password" className="form-control" name="password" 
-                     placeholder="Enter password" required/>
+                     placeholder="Enter password" required minLength="8"/>
+                </div>
+            </div>
+            <div className='g-input-field'>
+                <div className='g-input-label'>Confirm Password:</div> 
+                <div className='g-input-control'>
+                    <input onChange = {(e) => this.setState({confirmpassword : e.target.value})} type="password" className="form-control" name="confirmpassword" 
+                     placeholder="Re-enter password" required minLength="8"/>
                 </div>
             </div>
             <div className='g-input-field'>
@@ -77,7 +94,14 @@ class SignUpSeller extends React.Component {
     }
     registerSeller(e) {
         e.preventDefault();
-        this.props.signup(this.state);
+        if(this.state.password !== this.state.confirmpassword) {
+            this.props.setMessage({
+                msg: 'Passwords do not match',
+                name: 'danger'
+            })
+        } else {
+            this.props.signup(this.state);
+        }
     }
 }
 const mapStateToProps = state => {
@@ -87,7 +111,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-      signup: payload => dispatch(signupSeller(payload))
+      signup: payload => dispatch(signupSeller(payload)),
+      setMessage: payload => dispatch(setMessage(payload))
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpSeller);
