@@ -1,18 +1,38 @@
- import { SETCARTCOUNT } from "../actions/action-types";
+ import { SETCARTCOUNT, ORDERSUCCESS, CUSTOMERORDERS, RESTAURANTORDERS } from "../actions/action-types";
 
 const initialState = {
-    cart_count: 0
+    cart_change: true,
+    order_successful: false,
+    customer_orders: [],
+    rest_orders: []
 }
 
 const orderReducer = (state = initialState, action) => {
     switch (action.type) {
       case SETCARTCOUNT: {
-          debugger;
           return {
              ...state,
-             cart_count: action.payload
+             cart_change: !state.cart_change
           };
       }
+      case ORDERSUCCESS: {
+        return {
+           ...state,
+           order_successful: true
+        };
+     }
+     case CUSTOMERORDERS: {
+       return {
+         ...state,
+         customer_orders: action.payload
+       }
+     }
+     case RESTAURANTORDERS: {
+      return {
+        ...state,
+        rest_orders: action.payload
+      }
+    }
       default:
         return state;
     }

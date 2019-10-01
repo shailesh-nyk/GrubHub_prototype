@@ -6,6 +6,7 @@ import BuyerNav from './buyer-nav';
 import BuyerHome from './home';
 import BuyerProfile from './profile';
 import BuyerOrder from './order';
+import BuyerOrderHistory from './order-history';
 
 class BuyerMain extends React.Component { 
     constructor(props) {
@@ -28,6 +29,7 @@ class BuyerMain extends React.Component {
                             <Route path="/buyer/home" component={BuyerHome}/>
                             <Route path="/buyer/profile" component={BuyerProfile}/>
                             <Route path="/buyer/order" component={BuyerOrder}/>
+                            <Route path="/buyer/orderhistory" component={BuyerOrderHistory}/>
                     </Switch>
                </div>
             </div>

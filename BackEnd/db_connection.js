@@ -6,7 +6,8 @@ var connection = mysql.createConnection({
     port: '3306',
     user: 'root',
     password: 'Ccompiler7!',
-    database: 'grubhub'
+    database: 'grubhub',
+    dateStrings: true
 });
 connection.connect((err) => {
     if(err) console.log('Connection to DB failed!!' , err) ;

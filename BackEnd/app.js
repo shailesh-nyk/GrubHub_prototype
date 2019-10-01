@@ -33,12 +33,13 @@ var buyerRouter = require('./routes/buyer');
 var sellerRouter = require('./routes/seller');
 var uploadRouter = require('./routes/upload');
 var searchRouter = require('./routes/search');
-
+var orderRouter = require('./routes/order');
 
 app.use('/api', indexRouter);
 app.use('/api/buyer', buyerRouter);
 app.use('/api/seller', sellerRouter);
 app.use('/api/uploads', uploadRouter);
 app.use('/api/search', searchRouter);
+app.use('/api/order', orderRouter);
 
 module.exports = app;

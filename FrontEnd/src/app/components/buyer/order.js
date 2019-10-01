@@ -103,6 +103,7 @@ class BuyerOrder extends React.Component {
             rest_id: this.props.selectedOrderRest.id,
             total: this.state.total,
             items: [],
+            cust_id: JSON.parse(localStorage.getItem('user1')).id
         };
         Object.keys(this.state.display_items).forEach(key => { 
             if(this.state.display_items[key].length > 0) {
@@ -114,7 +115,7 @@ class BuyerOrder extends React.Component {
             } 
         })
         localStorage.setItem('cart', JSON.stringify(itemsAdded));
-        this.props.setCartCount(itemsAdded.items.length);
+        this.props.setCartCount();
     }
     decCount(val) {
         let sec,id;
@@ -172,7 +173,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getSections: payload => dispatch(getSections(payload)),
         getItems: payload => dispatch(getItems(payload)),
-        setCartCount: payload => dispatch(setCartCount(payload))
+        setCartCount: () => dispatch(setCartCount())
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(BuyerOrder);

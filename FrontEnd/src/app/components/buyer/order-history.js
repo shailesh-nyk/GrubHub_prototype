@@ -1,33 +1,31 @@
 import React from 'react';
 import config from '../../../app-config';
 import { connect } from 'react-redux';
-import { getRestaurantOrders, updateOrderStatus } from './../../redux/actions/order-actions';
+import { getCustomerOrders } from './../../redux/actions/order-actions';
 
-class SellerHome extends React.Component { 
+class BuyerOrderHistory extends React.Component { 
     constructor(props) {
         super(props);
         this.state = {
             activeOrders: [],
-            pastOrders: [],
+            pastOrders: []
         }
     }
     componentDidMount() {
-        let id = JSON.parse(localStorage.getItem('user2')).id;
-        this.props.getRestaurantOrders({
-            rest_id: id
+        let id = JSON.parse(localStorage.getItem('user1')).id;
+        this.props.getCustomerOrders({
+            cust_id: id
         })
     }
-    refresh(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        let id = JSON.parse(localStorage.getItem('user2')).id;
-        this.props.getRestaurantOrders({
-            rest_id: id
+    refresh() {
+        let id = JSON.parse(localStorage.getItem('user1')).id;
+        this.props.getCustomerOrders({
+            cust_id: id
         })
     }
     componentWillReceiveProps(next) {
-        let activeOrders = next.rest_orders.filter(x=> x.status !== 'delivered' && x.status !== 'cancelled' )
-        let pastOrders = next.rest_orders.filter(x=> x.status === 'delivered' || x.status === 'cancelled' )
+        let activeOrders = next.customer_orders.filter(x=> x.status !== 'delivered' && x.status !== 'cancelled' )
+        let pastOrders = next.customer_orders.filter(x=> x.status === 'delivered' || x.status === 'cancelled' )
         this.setState({
             activeOrders: activeOrders,
             pastOrders: pastOrders
@@ -38,7 +36,7 @@ class SellerHome extends React.Component {
             <div className="accordion" id="accordionOrders">
             <div className="card">
               <div className="card-header" id="active-orders" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Active Orders 
+                        Active Orders
               </div>
               <span className="g-icon g-order-refresh fa fa-refresh" onClick={(e) => this.refresh(e)}></span>
               <div id="collapseOne" className="collapse show" aria-labelledby="active-orders" data-parent="#accordionOrders">
@@ -49,7 +47,7 @@ class SellerHome extends React.Component {
                             this.state.activeOrders.map(order => {
                                 return(
                                 <div className="card">
-                                   <div className="card-header g-order-header" id={"active-order" + order.order_id} data-toggle="collapse" data-target={"#collapse"+ order.order_id} aria-expanded="true" aria-controls={"collapse"+ order.order_id }>
+                                    <div className="card-header g-order-header" id={"active-order" + order.order_id} data-toggle="collapse" data-target={"#collapse"+ order.order_id} aria-expanded="true" aria-controls={"collapse"+ order.order_id }>
                                         <div> <span className="g-secondary-text">Order ID </span> <b>{order.order_id}</b> </div> 
                                         <div style={{flex: '2'}}> <span className="g-secondary-text">From </span> <b>{order.rest_name}</b> </div> 
                                         <div> <span className="g-secondary-text"> On: </span> <b>{order.date}</b> </div>
@@ -58,16 +56,6 @@ class SellerHome extends React.Component {
                                     </div>
                                     <div id={"collapse"+ order.order_id } className="collapse" aria-labelledby={"active-order" + order.order_id} data-parent="#accordionActiveOrders">
                                         <div className="card-body">
-                                            <div className="g-update-order-status"> 
-                                                <select className="form-control" id={'newstatus' + order.order_id}>
-                                                    <option value="">--SELECT--</option>
-                                                    <option disabled={order.status === 'ready' || order.status === 'preparing'} value="preparing">PREPARING</option>
-                                                    <option disabled={order.status === 'ready'}value="ready">READY</option>
-                                                    <option value="delivered">DELIVERED</option>
-                                                    <option value="cancelled">CANCEL</option>
-                                                </select>
-                                                <button value={order.order_id} className="btn btn-primary" onClick={(e) => this.updateOrderStatus(e)}>Update Status</button>
-                                            </div>
                                             {order.itemList.map( item => {
                                                 return(
                                                 <div className="g-menu-row">
@@ -89,10 +77,10 @@ class SellerHome extends React.Component {
                                                 </div>
                                                 )
                                             })}
-                                            <div className="g-menu-row"  style={{borderTop: "1px solid"}}>
+                                            <div className="g-menu-row">
                                                     <div className="g-menu-image"></div>
                                                     <div className="g-menu-desc">
-                                                        Delivery address<br/>
+                                                        Restaurant address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
                                                     <div className="g-menu-quantity"></div>
@@ -156,10 +144,10 @@ class SellerHome extends React.Component {
                                                 </div>
                                                 )
                                             })}
-                                            <div className="g-menu-row" style={{borderTop: "1px solid"}}>
+                                            <div className="g-menu-row">
                                                     <div className="g-menu-image"></div>
                                                     <div className="g-menu-desc">
-                                                        Delivery address<br/>
+                                                        Restaurant address<br/>
                                                         <b>{order.address}, {order.zipcode}</b>
                                                     </div>
                                                     <div className="g-menu-quantity"></div>
@@ -184,27 +172,15 @@ class SellerHome extends React.Component {
           </div>
         )
     }
-    updateOrderStatus(e) {
-        let order_id = e.target.value;
-        let status = document.getElementById('newstatus' + order_id).value;
-        if(status !== "") {
-            this.props.updateOrderStatus({
-                status: status,
-                order_id: order_id,
-                rest_id: JSON.parse(localStorage.getItem('user2')).id
-            })
-        }
-    }
 }
 const mapStateToProps = state => {
     return {
-        rest_orders: state.orderReducer.rest_orders
+        customer_orders: state.orderReducer.customer_orders
     }   
 }
 const mapDispatchToProps = dispatch => {
     return {
-        getRestaurantOrders: payload => dispatch(getRestaurantOrders(payload)),
-        updateOrderStatus: payload => dispatch(updateOrderStatus(payload)),
+        getCustomerOrders: payload => dispatch(getCustomerOrders(payload)),
     };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SellerHome);
+export default connect(mapStateToProps, mapDispatchToProps)(BuyerOrderHistory);

@@ -330,3 +330,72 @@
       right: -13px;
    }
 }
+.g-cart-row {
+   display: flex;
+   flex-wrap: nowrap;
+   align-items: center;
+   padding-right: 24px; 
+   margin-bottom: 16px;
+   div {
+      flex: 1;
+      text-align: center;
+   }
+}
+.g-icon {
+   font-size: 20px;
+   cursor: pointer;
+   &:hover {
+      color: $app-blue;
+   }
+}
+
+.g-order-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   div {
+      flex:1;
+   }
+   .g-status {
+      border: 1px solid;
+      border-radius: 10px;
+      padding: 0 18px;
+      color: whitesmoke;
+   }
+   .ready {
+      background-color: darkolivegreen;
+   }
+   .preparing {
+      background-color: orange;
+   }
+   .new {
+      background-color: dodgerblue;
+   }
+   .delivered {
+      background-color: green;
+   }
+   .cancelled {
+      background-color: red;
+   }
+}
+.g-order-refresh {
+   position: absolute;
+   left: 160px;
+   top: 15px;
+}
+.card-header {
+   cursor: pointer;
+   background-color: lightgrey;
+   margin-bottom: 2px !important;
+}
+.g-update-order-status {
+   display: flex;
+   justify-content: flex-end;
+   select {
+      width: 250px;
+      margin-right: 24px;
+   }
+   button {
+      width: 200px;
+   }
+}
