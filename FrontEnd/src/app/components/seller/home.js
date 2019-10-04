@@ -72,7 +72,7 @@ class SellerHome extends React.Component {
                                                 return(
                                                 <div className="g-menu-row">
                                                     <div className="g-menu-image">
-                                                        <img className="g-image" src={config.base + item.img} alt="NO PHOTO"/>
+                                                        <img className="g-image" src={config.base + item.img} alt="NO DISPLAY"/>
                                                     </div>
                                                     <div className="g-menu-desc">
                                                         <div className="g-menu-desc-title">{item.name}</div>
@@ -142,7 +142,7 @@ class SellerHome extends React.Component {
                                                 return(
                                                 <div className="g-menu-row" key={index}>
                                                     <div className="g-menu-image">
-                                                        <img className="g-image" src={config.base + item.img} alt="NO PHOTO"/>
+                                                        <img className="g-image" src={config.base + item.img} alt="NO DISPLAY"/>
                                                     </div>
                                                     <div className="g-menu-desc">
                                                         <div className="g-menu-desc-title">{item.name}</div>

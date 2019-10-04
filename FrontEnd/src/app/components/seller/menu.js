@@ -20,6 +20,7 @@ class Menu extends React.Component {
     }
     componentWillReceiveProps(next) {
         if(next.itemsFetched && next.sectionsFetched) {
+            window.$('.modal').modal('hide');
             let obj = {};
             next.sections.forEach( section => {
                     obj[section.section_name] = next.items.filter(item => item.section === section.section_id);
@@ -44,13 +45,14 @@ class Menu extends React.Component {
          }
         let addItemBtn = null;
         if(this.props.sections.length > 0 ) {
-            addItemBtn = <button className="btn btn-warning btn-md" data-toggle="modal" data-target="#additemsModal">Add New Item</button>
+            addItemBtn = <button className="btn btn-warning btn-md" data-toggle="modal" data-target="#additemsModal" onClick={()=> this.clearFields()}>Add New Item</button>
         }
         array.push (
             <div>
                 <div className="g-add-section">
-                    <button className="btn btn-warning btn-md" data-toggle="modal" data-target="#addsectionModal">Add New Section</button>
+                    <button className="btn btn-warning btn-md" data-toggle="modal" data-target="#addsectionModal" onClick={()=> this.clearFields()}>Add New Section</button>
                     {addItemBtn}
+                    <button className="btn btn-warning-outline btn-sm" onClick={() => this.componentDidMount()}></button>
                 </div> 
             </div>
         )
@@ -70,13 +72,13 @@ class Menu extends React.Component {
                                 <div className='g-input-label'>Section Name:</div> 
                                 <div className='g-input-control'>
                                     <input onChange = {(e) => this.setState({newSection : e.target.value})} type="text" className="form-control"  
-                                       placeholder="Enter name" required/>
+                                       placeholder="Enter name" required value={this.state.newSection}/>
                                 </div>
                             </div>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-success" data-dismiss="modal">Save changes</button>
+                        <button type="submit" className="btn btn-success">Save changes</button>
                     </div>
                     </form>
                     </div>
@@ -179,13 +181,13 @@ class Menu extends React.Component {
                                 <div className='g-input-label'>Description:</div> 
                                 <div className='g-input-control'>
                                     <textarea id='item_desc' type="text" className="form-control"  
-                                        placeholder="Add a clear and informative description for your customers" required/>
+                                        placeholder="Add a clear and informative description for your customers"/>
                                 </div>
                             </div>
                             <div className='g-input-field'>
                                 <div className='g-input-label'>Menu Section: </div> 
                                 <div className='g-input-control'>
-                                    <select className="form-control" id='item_section' value={this.state.option}>
+                                    <select className="form-control" id='item_section' value={this.state.optiion}>
                                         {this.props.sections.map( x => {
                                             return (
                                                 <option value={x.section_id}>{x.section_name}</option>
@@ -198,7 +200,7 @@ class Menu extends React.Component {
                                 <div className='g-input-label'>Price:</div> 
                                 <div className='g-input-control'>
                                     <input id='item_price' type="number" step="0.01" className="form-control"  
-                                        placeholder="Set a price for your item" required/>
+                                        placeholder="Set a price for your item" required max="1000.00" min="0"/>
                                 </div>
                             </div>
                             <div className='g-input-field'>
@@ -259,7 +261,7 @@ class Menu extends React.Component {
                                 <div className='g-input-label'>Price:</div> 
                                 <div className='g-input-control'>
                                     <input id='edit_item_price' type="number" step="0.01" className="form-control"  
-                                        placeholder="Set a price for your item" required/>
+                                       min="0" max="1000" placeholder="Set a price for your item" required/>
                                 </div>
                             </div>
                             <div className='g-input-field'>
@@ -295,7 +297,7 @@ class Menu extends React.Component {
                             array.push(
                                 <div className="g-menu-row">
                                     <div className="g-menu-image">
-                                         <img className="g-image" src={config.base + item.image} alt="NO PHOTO"/>
+                                         <img className="g-image" src={config.base + item.image} alt="NO DISPLAY"/>
                                     </div>
                                     <div className="g-menu-desc">
                                         <div className="g-menu-desc-title">{item.name}</div>
@@ -374,7 +376,6 @@ class Menu extends React.Component {
         e.preventDefault();
         let req_body = {
             item_id: this.state.selectedItem, 
-            // rest_id: JSON.parse(localStorage.getItem('user2')).id,
             name: document.getElementById('edit_item_name').value,
             desc: document.getElementById('edit_item_desc').value,
             section: document.getElementById('edit_item_section').value,
@@ -386,6 +387,14 @@ class Menu extends React.Component {
     deleteItem() {
         this.props.deleteItem({
             item_id: this.state.selectedItem
+        })
+    }
+    clearFields() {
+        document.getElementById('item_name').value = ""
+        document.getElementById('item_desc').value = ""
+        document.getElementById('item_price').value = ""
+        this.setState({
+            newSection: ''
         })
     }
 }

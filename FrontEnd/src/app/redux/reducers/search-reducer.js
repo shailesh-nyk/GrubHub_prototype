@@ -1,8 +1,9 @@
-import { SEARCHBYITEMFAILED, SEARCHBYITEM } from "../actions/action-types";
+import { SEARCHBYITEMFAILED, SEARCHBYITEM, SETCUISINES, CLEARSEARCH } from "../actions/action-types";
 
 const initialState = {
     isSearched: false,
-    resultRestaurants: []
+    resultRestaurants: [],
+    cuisine: []
 }
 
 const searchReducer = (state = initialState, action) => {
@@ -20,6 +21,19 @@ const searchReducer = (state = initialState, action) => {
             isSearched: true,
             resultRestaurants: []
          };
+      }
+      case SETCUISINES: {
+        return {
+          ...state,
+          cuisine: action.payload
+        }
+      }
+      case CLEARSEARCH: {
+        return {
+            ...state,
+            isSearched: false,
+            resultRestaurants: []
+        }
       }
       default:
         return state;

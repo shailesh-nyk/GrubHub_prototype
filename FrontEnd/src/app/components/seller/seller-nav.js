@@ -13,7 +13,7 @@ class SellerNav extends React.Component {
         }
     }
     render() {
-        if(!this.props.isAuthenticatedSeller) {
+        if(!localStorage.getItem('user2')) {
             return <Redirect to="/"/>
         }
         return ( 
@@ -26,12 +26,10 @@ class SellerNav extends React.Component {
                <Link to="/seller/menu" className="btn btn-outline-primary g-menu-button">MY MENU</Link>
                <span style={{flex : '1'}}></span>
                <div className="dropdown" style={{marginRight: '32px'}}>
-                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdownMenu" aria-haspopup="true" aria-expanded="true"
-                      onClick={() => {let ele = document.getElementById('dropdownMenu1'); ele.style.display = ele.style.display === 'none' ? 'block': 'none' }}
-                      >
+                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                          Hi , {this.state.user.name}
                      </button>
-                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" id='dropdownMenu1'>
+                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                          <Link to="/seller/profile" className="dropdown-item">My Profile</Link>
                          <button className="dropdown-item" onClick={() => this.logOut()}>Logout</button>
                      </div>

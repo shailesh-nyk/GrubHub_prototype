@@ -99,12 +99,14 @@ router.get('/menu', (req, res, next) => {
         (select item_id from restaurant_items where rest_id=?)`, [req.query.rest_id],
        (err, results, fields) => {
         if(err) {
+          console.log(err);
           res.send({
               success: false,
               msg: "Something went wrong",
               msgDesc: err
           })
         } else {
+          console.log('NO ERROR');
               res.send({
                 success: true,
                 msg: "Successfully fetched the items" ,
@@ -187,7 +189,7 @@ router.put('/sections', (req, res, next) => {
 //DELETE MENU SECTION
 router.delete('/sections', (req, res, next) => {
   connection.query(
-     `DELETE FROM menu_sections WHERE section_id=?`, [req.body.section_id],
+    `UPDATE menu_sections SET rest_id = 0 WHERE section_id = ?` , [req.body.section_id],
      (err, results, fields) => {
       if(err) {
         res.send({

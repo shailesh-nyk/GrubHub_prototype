@@ -62,7 +62,7 @@ export const getItems = (payload) => {
                         name: 'warning'
                     }))
                 }
-            }, err => {
+            }, err => { 
                 dispatch(stopLoader());
                 dispatch(setMessage({
                     msg: "Something went wrong",
@@ -105,7 +105,7 @@ export const addItem = (payload) => {
         dispatch(startLoader());
         axios.post(config.api_host + '/seller/menu', payload)
         .then(resp => {
-                if(resp.data.success) {
+                if(resp.data.success && payload.image) {
                     const data = new FormData();
                     data.append('file', payload.image, resp.data.msgDesc.toString());
                     axios.post(config.api_host + '/uploads/item', data)
@@ -131,6 +131,13 @@ export const addItem = (payload) => {
                             name: 'danger'
                         })) 
                     })
+                } else if(resp.data.success) {
+                    dispatch(stopLoader());
+                    dispatch(setMessage({
+                        msg: "Successfully added new item to your menu",
+                        name: 'success'
+                    }))
+                    dispatch(reloadMenu());
                 } else {
                     dispatch(stopLoader())
                     dispatch(setMessage({

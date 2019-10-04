@@ -30,7 +30,7 @@ class SellerProfile extends React.Component {
            <div> 
             <h3 style={{textAlign: 'center'}}>Your account</h3>
             <div className="g-profile-row">
-                <div className="g-profile-avatar"><img src={config.base + this.props.user.image} /></div> 
+                <div className="g-profile-avatar"><img src={config.base + this.props.user.image} alt="NO DISPLAY"/></div> 
                 <div className="g-profile-details-section">
                     <div className="g-profile-details"> 
                         <span className='g-secondary-text'>Name</span>
@@ -179,9 +179,16 @@ class SellerProfile extends React.Component {
         }
     }
     uploadImage() {
-        const data = new FormData();
-        data.append('file', this.state.selectedImg, this.props.user.id);
-        this.props.uploadPicture(data);
+        if(this.state.selectedImg && (this.state.selectedImg.type.includes('jp')|| this.state.selectedImg.type.includes('png'))) {
+            const data = new FormData();
+            data.append('file', this.state.selectedImg, this.props.user.id);
+            this.props.uploadPicture(data);
+        } else {
+            this.props.setMessage({
+                msg: "Please select a valid image",
+                name: 'danger'
+            })
+        }
     }
 }
 const mapStateToProps = state => {

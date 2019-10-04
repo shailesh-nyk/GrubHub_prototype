@@ -65,12 +65,18 @@
    width: 100%;
    .g-buyer-nav {
       height: 70px; 
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      background-color: $app-bg;
+      width: 100vw;
+      z-index: 1041;
    }
    .g-buyer-content {
       flex: 1;
       background-color: $app-content-bg;
       color: $app-primary-text;
-      padding: 24px;
+      padding: 94px 24px 48px 24px;
    }
 }
 
@@ -82,12 +88,18 @@
    width: 100%;
    .g-seller-nav {
       height: 70px; 
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      background-color: $app-bg;
+      width: 100vw;
+      z-index: 10;
    }
    .g-seller-content {
       flex: 1;
       background-color: $app-content-bg;
       color: $app-primary-text;
-      padding: 24px;
+      padding: 94px 24px 48px 24px;
    }
 }
 .g-seller-navbar {
@@ -228,10 +240,15 @@
        }
     }
 }
-
+.g-filter {
+   display: flex;
+   select {
+      width: 250px;
+   }
+}
 .g-search-container {
    background-image: url("../images/searchbg.jpg");
-   height: 230px;
+   height: 180px;
    background-repeat: no-repeat;
    background-size: cover;
    background-position: center;
@@ -276,6 +293,7 @@
 
 .g-results-container {
    display: flex;
+   flex-wrap: wrap;
    padding: 30px;
    .card {
       cursor: pointer;

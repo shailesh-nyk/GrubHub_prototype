@@ -13,4 +13,5 @@ connection.connect((err) => {
     if(err) console.log('Connection to DB failed!!' , err) ;
     else console.log('Connection successful to DB!!');
 });
+connection.query('SET FOREIGN_KEY_CHECKS = 0');
 module.exports = connection;

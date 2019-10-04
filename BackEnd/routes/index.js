@@ -55,8 +55,8 @@ router.post('/register-seller', function(req, res, next) {
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     console.log('Hash is :' + hash);
     connection.query(
-      `INSERT INTO sellers (name, email, phone password, rest_name, zipcode, address) 
-        VALUES (?,?,?,?,?,?,?)`, [req.body.name, req.body.email,req.body.phone, hash, req.body.rest_name, req.body.rest_zipcode , req.body.rest_address] ,
+      `INSERT INTO sellers (name, email, phone, password, rest_name,cuisine, zipcode, address) 
+        VALUES (?,?,?,?,?,?,?)`, [req.body.name, req.body.email,req.body.phone, hash, req.body.rest_name,req.body.cuisine, req.body.rest_zipcode , req.body.rest_address] ,
        (err, results, fields) => {
           if(err) {
              console.log(err);

@@ -32,40 +32,51 @@ class BuyerNav extends React.Component {
         }
     }
     render() {
-        if(!this.props.isAuthenticatedBuyer) {
+        if(!localStorage.getItem('user1')) {
             return <Redirect to='/'/>
         }
         if(this.state.order_successful) {
-            return <Redirect to='/buyer/orderhistory'/>
+            document.getElementById('hidden-link').click();
         }
         let cart_rows;
         let footer = null;
         if(this.state.cart.length > 0) {
             cart_rows = (
                 <div>
+                    <div className='g-cart-row'>
+                        <div style={{ flex: "2" }}>Item name</div>
+                        <div>Quantity</div>
+                        <div>Price</div>
+                        <div></div>
+                    </div>
                 { 
                     this.state.cart.map((item,index) => {
                         return (
-                            <div>
                                 <div key={index} className='g-cart-row'>
                                     <div style={{ flex: "2" }}>{item.name}</div>
-                                    <div>x {item.count}</div>
+                                    <div className="g-qty">
+                                        <span className="minus" id={index} onClick={(e) => this.decCount(e.target.id)}>-</span>
+                                        <span className="count">{item.count}</span>
+                                        <span className="plus" id={index} onClick={(e) => this.incCount(e.target.id)}>+</span>
+                                    </div>
                                     <div>${item.count * item.price}</div>
                                     <div id={item.item_id} className="fa fa-trash-o g-icon" onClick={(e) => this.deleteItem(e.target.id)}></div>
                                 </div>
-                            </div>
                         )
                     }) 
                 }
-                <div style={{marginTop:"38px", textAlign: "end"}}>
-                                Total: ${this.state.cart_total}
+                <div className='g-cart-row' style={{marginTop:"38px"}}>
+                        <div style={{ flex: "2" }}></div>
+                        <div></div>
+                        <div></div>
+                        <div>Total: ${this.state.cart_total}</div>
                 </div>
             </div>
             )
             footer = (
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn btn-success" onClick={()=> this.placeOrder()} data-dismiss="modal">Place Order</button>
+                    <button type="submit" className="btn btn-success" onClick={()=> this.placeOrder()}>Place Order</button>
                 </div>
             )
         } else {
@@ -77,14 +88,13 @@ class BuyerNav extends React.Component {
                     <img src={logo3} alt="logo"/>
                     <img src={logo2} alt="logo"/>
                 </Link>
+                <Link to="/buyer/orderhistory/" id='hidden-link'></Link>
                 <span style={{flex : '1'}}></span>
                 <div className="dropdown" style={{marginRight: '32px'}}>
-                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdownMenu" aria-haspopup="true" aria-expanded="true"
-                      onClick={() => {let ele = document.getElementById('dropdownMenu1'); ele.style.display = ele.style.display === 'none' ? 'block': 'none' }}
-                      >
+                     <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                          Hi , {this.state.user.name}
                      </button>
-                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" id='dropdownMenu1'>
+                     <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                          <Link to="/buyer/profile" className="dropdown-item">My Profile</Link>
                          <Link to="/buyer/orderhistory" className="dropdown-item">My Orders</Link>
                          <button className="dropdown-item" onClick={() => this.logOut()}>Logout</button>
@@ -131,10 +141,27 @@ class BuyerNav extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
         this.setCart();
     }
+    incCount(index) {
+        let cart =  JSON.parse(localStorage.getItem('cart'));
+        cart.items[index].count++;
+        cart.total += cart.items[index].price;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.setCart();
+    }
+    decCount(index) {
+        let cart =  JSON.parse(localStorage.getItem('cart'));
+        if(cart.items[index].count > 1) {
+            cart.items[index].count--;
+            cart.total -= cart.items[index].price;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            this.setCart();
+        }
+    }
     logOut() {
         this.props.logOutBuyer();
     }
     placeOrder() {
+        window.$('.modal').modal('hide');
         this.props.placeOrder({
             cust_id: this.state.user.id,
             items: this.state.cart,

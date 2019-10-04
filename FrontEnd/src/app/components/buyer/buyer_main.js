@@ -1,6 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import config from '../../../app-config';
 import { Redirect, Switch, Route } from 'react-router-dom';
 import BuyerNav from './buyer-nav';
 import BuyerHome from './home';
@@ -15,17 +13,19 @@ class BuyerMain extends React.Component {
         }
     }
     render() {
-        // alert('main loaded')
-        // if(!localStorage.getItem('user1')) {s
-        //     return <Redirect to='/login'/>
-        // }
+        if(!localStorage.getItem('user1')) {
+            return <Redirect to="/"/>
+        }
         return ( 
             <div className='g-buyer-main'>
-                <div className='g-buyer-nav'>
+                <div className='g-buyer-nav g-box-shadow2'>
                     <BuyerNav/>
                 </div>
                <div className='g-buyer-content'>
                     <Switch>
+                            <Route exact path="/buyer/" render={() => (
+                                <Redirect to="/buyer/home" />
+                            )} />
                             <Route path="/buyer/home" component={BuyerHome}/>
                             <Route path="/buyer/profile" component={BuyerProfile}/>
                             <Route path="/buyer/order" component={BuyerOrder}/>

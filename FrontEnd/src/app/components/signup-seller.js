@@ -14,6 +14,7 @@ class SignUpSeller extends React.Component {
             password: '',
             confirmpassword: '',
             rest_name: '',
+            cuisine: '',
             rest_address: '',
             rest_zipcode: '',
             gotoLogin: false
@@ -67,6 +68,13 @@ class SignUpSeller extends React.Component {
                 <div className='g-input-control'>
                     <input onChange = {(e) => this.setState({rest_name : e.target.value})} type="text" className="form-control"  
                      name="rest_name" placeholder="Enter restaurant's name" required />
+                </div>
+            </div>
+            <div className='g-input-field'>
+                <div className='g-input-label'>Cuisine:</div> 
+                <div className='g-input-control'>
+                    <input onChange = {(e) => this.setState({cuisine : e.target.value})} type="text" className="form-control"  
+                     name="cuisine" placeholder="Enter your restaurant's cuisine" required />
                 </div>
             </div>
             <div className='g-input-field'>

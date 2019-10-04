@@ -35,9 +35,9 @@ class App extends React.Component {
             <Route exact path="/" render={() => (
               <Redirect to="/login" />
             )} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup-buyer" component={SignUpBuyer} />
-            <Route path="/signup-seller" component={SignUpSeller} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup-buyer" component={SignUpBuyer} />
+            <Route exact path="/signup-seller" component={SignUpSeller} />
             <Route path="/buyer" component={BuyerMain} />
             <Route path="/seller" component={SellerMain} />
           </Switch>
