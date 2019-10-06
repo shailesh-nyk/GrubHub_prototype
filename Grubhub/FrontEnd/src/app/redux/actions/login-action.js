@@ -1,4 +1,4 @@
-import { LOGINBUYER , LOGINSELLER } from "../actions/action-types";
+import { LOGINBUYER , LOGINSELLER, SETAUTHBUYER, SETAUTHSELLER } from "../actions/action-types";
 import config from './../../../app-config';
 import axios from 'axios';
 import {startLoader, stopLoader, setMessage } from './util-action';
@@ -13,6 +13,16 @@ const loginSellerDispatcher = (payload) => {
     return { 
         type: LOGINSELLER , payload
     };
+}
+export const setAuthBuyer = () => {
+    return {
+        type: SETAUTHBUYER
+    }
+}
+export const setAuthSeller = () => {
+    return {
+        type: SETAUTHSELLER
+    }
 }
 
 export const login = (payload) => {

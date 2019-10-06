@@ -23,7 +23,7 @@ class SellerNav extends React.Component {
                     <img src={logo2} alt="logo"/>
                 </Link>
                <span style={{flex : '1'}}></span>
-               <Link to="/seller/menu" className="btn btn-outline-primary g-menu-button">MY MENU</Link>
+               <Link to="/seller/home" className="btn btn-outline-primary g-menu-button">ORDERS</Link>
                <span style={{flex : '1'}}></span>
                <div className="dropdown" style={{marginRight: '32px'}}>
                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -31,6 +31,7 @@ class SellerNav extends React.Component {
                      </button>
                      <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                          <Link to="/seller/profile" className="dropdown-item">My Profile</Link>
+                         <Link to="/seller/menu" className="dropdown-item">My Menu</Link>
                          <button className="dropdown-item" onClick={() => this.logOut()}>Logout</button>
                      </div>
                 </div>

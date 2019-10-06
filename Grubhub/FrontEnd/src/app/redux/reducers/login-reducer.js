@@ -1,4 +1,4 @@
-import { LOGINBUYER , LOGINSELLER, LOGOUTSELLER ,LOGOUTBUYER } from "../actions/action-types";
+import { LOGINBUYER , LOGINSELLER, LOGOUTSELLER ,LOGOUTBUYER, SETAUTHBUYER, SETAUTHSELLER } from "../actions/action-types";
 
 const initialState = {
     isAuthenticatedBuyer: false,
@@ -31,10 +31,22 @@ const loginReducer = (state = initialState, action) => {
       };
     }
     case LOGOUTBUYER: {
-      localStorage.removeItem('user1')
+      localStorage.removeItem('user1');
       return {
           ...state,
           isAuthenticatedBuyer: false
+      };
+    }
+    case SETAUTHBUYER: {
+      return {
+        ...state,
+        isAuthenticatedBuyer: true
+      };
+    }
+    case SETAUTHSELLER: {
+      return {
+        ...state,
+        isAuthenticatedSeller: true
       };
     } 
     default:

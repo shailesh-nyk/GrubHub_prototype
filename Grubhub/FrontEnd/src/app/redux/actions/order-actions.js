@@ -1,4 +1,4 @@
-import { SETCARTCOUNT, ORDERSUCCESS, CUSTOMERORDERS, RESTAURANTORDERS, ORDERUPDATED } from "../actions/action-types";
+import { SETCARTCOUNT, ORDERSUCCESS, CUSTOMERORDERS, RESTAURANTORDERS } from "../actions/action-types";
 import config from './../../../app-config';
 import axios from 'axios';
 import {startLoader, stopLoader, setMessage } from './util-action';

@@ -35,6 +35,10 @@ class SellerHome extends React.Component {
     }
     render() {
         return ( 
+            <div>
+            <h3 style={{textAlign: "center"}}>
+                YOUR ORDERS
+            </h3>
             <div className="accordion" id="accordionOrders">
             <div className="card">
               <div className="card-header" id="active-orders" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -187,6 +191,7 @@ class SellerHome extends React.Component {
                  }
               </div>
             </div>
+          </div>
           </div>
         )
     }

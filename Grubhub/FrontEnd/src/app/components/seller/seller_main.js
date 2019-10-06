@@ -4,11 +4,15 @@ import SellerHome from './home';
 import SellerNav from './seller-nav';
 import SellerProfile from './profile';
 import Menu from './menu';
+import { setAuthSeller } from '../../redux/actions/login-action';
+import { connect } from 'react-redux';
 
 class SellerMain extends React.Component { 
     render() {
         if(!localStorage.getItem('user2')) {
             return <Redirect to="/"/>
+        } else {
+            this.props.setAuthSeller();
         }
         return ( 
             <div className='g-seller-main'>
@@ -31,4 +35,9 @@ class SellerMain extends React.Component {
         })
     }
 }
-export default SellerMain;
+const mapDispatchToProps = dispatch => {
+    return {
+        setAuthSeller: () => dispatch(setAuthSeller())
+    };
+}
+export default connect(null, mapDispatchToProps)(SellerMain);

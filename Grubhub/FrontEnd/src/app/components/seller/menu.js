@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getSections, getItems, addSection, addItem, editSection, deleteSection, editItem, deleteItem } from './../../redux/actions/menu-actions';
 import config from '../../../app-config';
+import { setMessage } from './../../redux/actions/util-action';
 
 class Menu extends React.Component {
     constructor(props) {
@@ -242,7 +243,7 @@ class Menu extends React.Component {
                                 <div className='g-input-label'>Description:</div> 
                                 <div className='g-input-control'>
                                     <textarea id='edit_item_desc' type="text" className="form-control"  
-                                        placeholder="Add a clear and informative description for your customers" required/>
+                                        placeholder="Add a clear and informative description for your customers"/>
                                 </div>
                             </div>
                             <div className='g-input-field'>
@@ -328,10 +329,18 @@ class Menu extends React.Component {
  
     addNewSection(e) {
         e.preventDefault();
-        this.props.addSection({
-            rest_id: JSON.parse(localStorage.getItem('user2')).id,
-            section_name: this.state.newSection.toLowerCase()
-        })
+        if(this.props.sections.find(x => x.section_name === this.state.newSection.toLowerCase())) {
+            this.props.setMessage({
+                msg: "You already have a section with this name!",
+                name: 'danger'
+            })
+        } else {
+            this.props.addSection({
+                rest_id: JSON.parse(localStorage.getItem('user2')).id,
+                section_name: this.state.newSection.toLowerCase()
+            })
+        }
+  
     }
     selectSection(key) {
         this.setState({
@@ -341,10 +350,17 @@ class Menu extends React.Component {
     }
     editSection(e) {
         e.preventDefault();
-        this.props.editSection({
-            section_id: this.state.selectedSection.section_id,
-            section_name: this.state.newSection.toLowerCase()
-        })
+        if(this.props.sections.find(x => x.section_name === this.state.newSection.toLowerCase())) {
+            this.props.setMessage({
+                msg: "You already have a section with this name!",
+                name: 'danger'
+            })
+        } else {
+            this.props.editSection({
+                section_id: this.state.selectedSection.section_id,
+                section_name: this.state.newSection.toLowerCase()
+            })
+        }
     }
     deleteSection() {
         this.props.deleteSection({
@@ -415,7 +431,8 @@ const mapDispatchToProps = dispatch => {
       editSection: payload => dispatch(editSection(payload)),
       deleteSection: payload => dispatch(deleteSection(payload)),
       editItem: payload => dispatch(editItem(payload)),
-      deleteItem: payload => dispatch(deleteItem(payload))
+      deleteItem: payload => dispatch(deleteItem(payload)),
+      setMessage: payload => dispatch(setMessage(payload))
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);

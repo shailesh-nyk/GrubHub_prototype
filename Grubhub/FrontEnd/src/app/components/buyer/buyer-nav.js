@@ -90,6 +90,8 @@ class BuyerNav extends React.Component {
                 </Link>
                 <Link to="/buyer/orderhistory/" id='hidden-link'></Link>
                 <span style={{flex : '1'}}></span>
+                <Link to="/buyer/home" className="btn btn-outline-primary g-menu-button">SEARCH</Link>
+                <span style={{flex : '1'}}></span>
                 <div className="dropdown" style={{marginRight: '32px'}}>
                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                          Hi , {this.state.user.name}

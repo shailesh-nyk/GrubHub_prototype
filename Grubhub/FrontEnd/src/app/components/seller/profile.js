@@ -28,7 +28,7 @@ class SellerProfile extends React.Component {
     render() {
         return ( 
            <div> 
-            <h3 style={{textAlign: 'center'}}>Your account</h3>
+            <h3 style={{textAlign: 'center'}}>YOUR ACCOUNT</h3>
             <div className="g-profile-row">
                 <div className="g-profile-avatar"><img src={config.base + this.props.user.image} alt="NO DISPLAY"/></div> 
                 <div className="g-profile-details-section">

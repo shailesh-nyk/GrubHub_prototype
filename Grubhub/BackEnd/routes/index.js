@@ -56,7 +56,7 @@ router.post('/register-seller', function(req, res, next) {
     console.log('Hash is :' + hash);
     connection.query(
       `INSERT INTO sellers (name, email, phone, password, rest_name,cuisine, zipcode, address) 
-        VALUES (?,?,?,?,?,?,?,?)`, [req.body.name, req.body.email,req.body.phone, hash, req.body.rest_name,req.body.cuisine, req.body.rest_zipcode , req.body.rest_address] ,
+        VALUES (?,?,?,?,?,?,?,?)`, [req.body.name, req.body.email,req.body.phone, hash, req.body.rest_name, req.body.cuisine.toLowerCase(), req.body.rest_zipcode , req.body.rest_address] ,
        (err, results, fields) => {
           if(err) {
              console.log(err);

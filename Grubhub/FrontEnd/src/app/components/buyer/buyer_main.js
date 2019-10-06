@@ -5,6 +5,8 @@ import BuyerHome from './home';
 import BuyerProfile from './profile';
 import BuyerOrder from './order';
 import BuyerOrderHistory from './order-history';
+import { connect } from 'react-redux';
+import { setAuthBuyer } from './../../redux/actions/login-action';
 
 class BuyerMain extends React.Component { 
     constructor(props) {
@@ -15,6 +17,8 @@ class BuyerMain extends React.Component {
     render() {
         if(!localStorage.getItem('user1')) {
             return <Redirect to="/"/>
+        } else {
+            this.props.setAuthBuyer();
         }
         return ( 
             <div className='g-buyer-main'>
@@ -36,4 +40,9 @@ class BuyerMain extends React.Component {
         )
     }
 }
-export default BuyerMain;
+const mapDispatchToProps = dispatch => {
+    return {
+      setAuthBuyer: () => dispatch(setAuthBuyer())
+    };
+}
+export default connect(null, mapDispatchToProps)(BuyerMain);
