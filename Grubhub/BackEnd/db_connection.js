@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 
 // create the connection to database
 var connection = mysql.createConnection({
+    // connectionLimit: 10,
     host: 'localhost',
     port: '3306',
     user: 'root',
@@ -9,9 +10,11 @@ var connection = mysql.createConnection({
     database: 'grubhub',
     dateStrings: true
 });
-connection.connect((err) => {
-    if(err) console.log('Connection to DB failed!!' , err) ;
-    else console.log('Connection successful to DB!!');
+connection.connect((err, res) => {
+    if(err) console.log("DB connection failed!!!");
+    else {
+        console.log("DB connection successful!!!");
+    } 
 });
-connection.query('SET FOREIGN_KEY_CHECKS = 0');
+connection.query("SET FOREIGN_KEY_CHECKS=0");
 module.exports = connection;

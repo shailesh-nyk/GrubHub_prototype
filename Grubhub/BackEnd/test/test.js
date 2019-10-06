@@ -65,3 +65,16 @@ it("Checking if restaurant order history returns atleast one order", function(do
         done();
     });
 })
+
+it("Checking if user is able to get items sold by a restaurant in details view", function(done){
+    chai.request(api_url)
+    .get('/api/seller/menu?rest_id=10')
+    .send()
+    .end(function (err, res) {
+        expect(res).to.have.status(200);
+        expect(res.body.msgDesc).to.be.a('Array');
+        expect(res.body.msgDesc).to.have.length.greaterThan(1);
+        done();
+    });
+})
+

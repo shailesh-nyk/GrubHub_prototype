@@ -107,7 +107,7 @@ class Menu extends React.Component {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" className="btn btn-success" data-dismiss="modal">Save changes</button>
+                        <button type="submit" className="btn btn-success">Save changes</button>
                     </div>
                     </form>
                     </div>

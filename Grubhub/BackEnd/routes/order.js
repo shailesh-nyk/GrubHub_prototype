@@ -167,7 +167,7 @@ router.get('/restaurant', (req, res, next) => {
                })
                res.send({
                 success: true,
-                msg: "Successfully fetched the buyer profile" ,
+                msg: "Successfully fetched your orders" ,
                 msgDesc: arr
               }) 
         } 

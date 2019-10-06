@@ -80,7 +80,7 @@ class BuyerProfile extends React.Component {
                             <div className='g-input-field'>
                                 <div className='g-input-label'>Email:</div>
                                 <div className='g-input-control'>
-                                    <input type="email" className="form-control" id="email" placeholder="Enter email address" required/>
+                                    <input type="email" className="form-control" id="email" placeholder="Enter email address" required readOnly/>
                                 </div>
                             </div>
                             <div className='g-input-field'>

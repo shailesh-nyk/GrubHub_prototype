@@ -15,11 +15,11 @@ class Messages extends React.Component {
                 <div className="g-alert-hidden"></div>
             )
         } else {
-            if(this.props.status.name === 'success') {
-                setTimeout(() => {
-                    this.props.dismissAlert();
-                }, 3000)
-            }
+            // if(this.props.status.name === 'success') {
+            //     setTimeout(() => {
+            //         this.props.dismissAlert();
+            //     }, 3000)
+            // }
             return ( 
                 <div className={"alert g-alert-show g-alert-" + this.props.status.name + " alert-dismissible fade show"} role="alert">
                 <strong>{this.props.status.msg}</strong>
